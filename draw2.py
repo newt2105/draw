@@ -63,13 +63,11 @@ def plotAndSaveComparison(df, order, solver, y_name, data, labels, replace, file
     # Comparison plot
     comparison_bars = createComparisonPlot(ax, comparison_data, labels, df, colors, edgecolors, replace)
 
-    if data == 'runtime':
-        ax.legend(fontsize=20, loc="upper left", fancybox=True)
-
     if ylim_top is not None:
         ax.set_ylim(ylim_bottom, top=ylim_top)  
 
     if runtime == True:
+        ax.legend(fontsize=20, loc="upper left", fancybox=True)
         ax.set_ylabel('Runtime (s)', fontsize=25)
         ax.set_yscale('log')
     else:
@@ -86,18 +84,18 @@ def Main():
     with open('./config/draw/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
 
-    df = pd.read_csv(config['data_file'])
+    df = pd.read_csv(config['data_file']) # read in put file
 
     for plot_config in config['plot_configs']:
         plotAndSaveComparison(
             df,
-            config['order'],
-            config['solver'],
-            y_name=plot_config['y_name'],
-            data=plot_config['data'],
-            labels=config['labels'],
-            replace=config['replace'],
-            filename=plot_config['filename'],
-            ylim_top=plot_config.get('ylim_top'),
-            runtime=plot_config.get('runtime')
+            config['order'], # order of set name in chart
+            config['solver'], # name of solver
+            y_name=plot_config['y_name'], 
+            data=plot_config['data'], # type of data
+            labels=config['labels'], # legend order
+            replace=config['replace'], 
+            filename=plot_config['filename'], # name of output file
+            ylim_top=plot_config.get('ylim_top'), # limit of y axis
+            runtime=plot_config.get('runtime') # check if it is runtime or not
         )

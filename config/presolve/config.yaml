@@ -1,9 +1,10 @@
 file_path: 'D:\Code\AI\draw\draw\data\raw\20240308_101747.csv'
 output_file_path: './data/edited/edited.csv'
-setname_mapping:
+setname:
   DUMMY: 100
   DUMMY2: 200
   DUMMY04: 40
   DUMMY07: 70
 order: ['DUMMY04', 'DUMMY07', 'DUMMY', 'DUMMY2']
+average_data : ['objvalue']
 convert_to_float: ['objvalue', 'usedlinksrate']

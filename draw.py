@@ -11,7 +11,7 @@ def read_data(file_path):
 def filter_solver(df, solver):
     return df[df["solvername"] == solver]
 
-def create_comparison_plot(ax, data, labels, df,  colours, edgecolors, markers=None):
+def create_comparison_plot(ax, data, labels, df,  colours, edgecolors, replace, markers=None):
     
     bars = []
     bar_width = 0.15
@@ -24,7 +24,7 @@ def create_comparison_plot(ax, data, labels, df,  colours, edgecolors, markers=N
         bars.append(ax.bar(index + i * (bar_width+0.02), dataset, width=bar_width, label=labels[i], hatch=markers[i], color = colours[i], edgecolor = edgecolors[i]))
 
     ax.set_xticks(index + (bar_width + 0.015) * (len(data) - 1) / 2 )
-    df['setname'] = df['setname'].replace({'DUMMY': 100, 'DUMMY2': 200, 'DUMMY04': 40, 'DUMMY07': 70})
+    df['setname'] = df['setname'].replace(replace)
     ax.set_xticklabels(df["setname"].unique())
     ax.legend(fontsize='x-large', loc = "upper right", fancybox=True)
     return bars
@@ -46,7 +46,7 @@ def save_plot(fig, filename, folder='fig'):
 
 
 
-def plot_and_save_comparison(df, order, solver, y_name,data, labels,  filename, ylim_bottom = None, ylim_top = None):
+def plot_and_save_comparison(df, order, solver, y_name,data, labels, replace,  filename, ylim_bottom = None, ylim_top = None):
     plt.rc('text', usetex=True)
     plt.rc('font', family='sans-serif')
 
@@ -69,7 +69,7 @@ def plot_and_save_comparison(df, order, solver, y_name,data, labels,  filename, 
 
     # Comparison plot
 
-    comparison_bars = create_comparison_plot(ax, comparison_data, labels,  df, colors, edgecolors)
+    comparison_bars = create_comparison_plot(ax, comparison_data, labels,  df, colors, edgecolors, replace)
     # add_values(comparison_bars, ax)
 
     if data == 'runtime':
@@ -105,9 +105,10 @@ def plot_and_save_comparison(df, order, solver, y_name,data, labels,  filename, 
 if __name__ == "__main__":
     df = read_data('ten_file_processed3.csv')
 
+    replace = {'DUMMY': 100, 'DUMMY2': 200, 'DUMMY04': 40, 'DUMMY07': 70}
     order = ['DUMMY04', 'DUMMY07', 'DUMMY', 'DUMMY2']
     solver = ["ILP_GUROBI",  "QL_DUMMY", "GREEDY"]
     labels = ["ILP-SE", "QL-SE", "Greedy-SE"]
-    plot_and_save_comparison(df, order, solver, y_name = "Acceptance rate" ,data = "objvalue", labels  = labels, filename= "objvalue_comparison", ylim_top= 1.05)
-    plot_and_save_comparison(df, order, solver, y_name = "Run time" ,data = "runtime", labels = labels,  filename="runtime_comparison")
-    plot_and_save_comparison(df, order, solver, y_name = "Used links per slices" ,data = "usedlinksrate", labels = labels,  filename="usedlinkscount_comparison",  ylim_top= 15)
+    plot_and_save_comparison(df, order, solver, y_name = "Acceptance rate" ,data = "objvalue", labels  = labels, replace = replace, filename= "objvalue_comparison", ylim_top= 1.05)
+    plot_and_save_comparison(df, order, solver, y_name = "Run time" ,data = "runtime", labels = labels, replace = replace, filename="runtime_comparison")
+    plot_and_save_comparison(df, order, solver, y_name = "Used links per slices" ,data = "usedlinksrate", replace = replace, labels = labels,  filename="usedlinkscount_comparison",  ylim_top= 15)

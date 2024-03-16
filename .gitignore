@@ -1,0 +1,7 @@
+fig
+*__pycache__*
+configs/*/*
+!configs/*/dummy.yaml
+.vscode
+.csv
+.txt

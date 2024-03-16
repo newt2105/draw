@@ -34,7 +34,7 @@ def Main():
     file_path = config['file_path'] # original file
     output_file_path = config['output_file_path'] # output file
     average_data = config['average_data'] # data needs to be averaged
-    setname_mapping = config['setname_mapping'] # set name
+    setname_mapping = config['setname'] # set name
     order = config['order'] # order of set name in chart
     convert_to_float = config['convert_to_float'] # data needs to converted to float
     

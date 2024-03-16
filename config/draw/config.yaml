@@ -1,4 +1,4 @@
-data_file: ten_file_processed3.csv
+data_file: ./data/edited/edited.csv
 replace:
   DUMMY: 100
   DUMMY2: 200

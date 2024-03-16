@@ -38,5 +38,5 @@ def Main():
     order = config['order'] # order of set name in chart
     convert_to_float = config['convert_to_float'] # data needs to converted to float
     
-    # Gọi hàm để xử lý dữ liệu và lưu vào file mới
+    # main process
     process_data_by_setname(file_path, output_file_path, average_data, setname_mapping, order, convert_to_float)

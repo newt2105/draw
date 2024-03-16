@@ -1,0 +1,17 @@
+setname,solvername,problemname,status,solutionstatus,objvalue,runtime,usedlinksrate
+DUMMY04,DQL_DUMMY,graphmapping_e0841ca9,1,ok,0.25,0.419,12.0
+DUMMY04,GREEDY,graphmapping_e0841ca9,1,ok,0.85,1.616,13.735
+DUMMY04,ILP_GUROBI,graphmapping_e0841ca9,1,ok,1.0,4.884,4.0
+DUMMY04,QL_DUMMY,graphmapping_e0841ca9,1,ok,1.0,2.085,13.7
+DUMMY07,DQL_DUMMY,graphmapping_df23f9d4,1,ok,0.14285714285714285,0.422,12.0
+DUMMY07,GREEDY,graphmapping_df23f9d4,1,ok,0.4857142857142857,1.587,13.735
+DUMMY07,ILP_GUROBI,graphmapping_df23f9d4,1,ok,1.0,69.716,4.0
+DUMMY07,QL_DUMMY,graphmapping_df23f9d4,1,ok,0.6571428571428571,3.807,13.826
+DUMMY,DQL_DUMMY,graphmapping_1114cf92,1,ok,0.1,0.652,12.0
+DUMMY,GREEDY,graphmapping_1114cf92,1,ok,0.34,2.509,13.735
+DUMMY,ILP_GUROBI,graphmapping_1114cf92,1,ok,0.8,778.247,4.0
+DUMMY,QL_DUMMY,graphmapping_1114cf92,1,ok,0.46,2.319,13.826
+DUMMY2,DQL_DUMMY,graphmapping_6a16f3d5,1,ok,0.05,0.353,12.0
+DUMMY2,GREEDY,graphmapping_6a16f3d5,1,ok,0.17,1.865,13.735
+DUMMY2,ILP_GUROBI,graphmapping_6a16f3d5,1,ok,0.4,2615.656,4.0
+DUMMY2,QL_DUMMY,graphmapping_6a16f3d5,1,ok,0.23,2.301,13.826

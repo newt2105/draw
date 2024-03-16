@@ -71,13 +71,14 @@ def plot_and_save_comparison(df, order, solver, y_name,data, labels,  filename, 
 
     comparison_bars = create_comparison_plot(ax, comparison_data, labels,  df, colors, edgecolors)
     # add_values(comparison_bars, ax)
+
     if data == 'runtime':
         # add_values(comparison_bars, ax)
         ax.legend(fontsize=20, loc = "upper left", fancybox=True)
     
-    if data == 'usedlinksrate':
-        ax.legend(fontsize=17, loc = "lower left", fancybox=True)
-        ax.set_yticks([0, 5, 10, 15])
+    # if data == 'usedlinksrate':
+    #     ax.legend(fontsize=17, loc = "lower left", fancybox=True)
+    #     ax.set_yticks([0, 5, 10, 15])
 
     # Set ylim to increase space above the plot if ylim_top is provided
     if ylim_top is not None:
@@ -103,7 +104,7 @@ def plot_and_save_comparison(df, order, solver, y_name,data, labels,  filename, 
 
 if __name__ == "__main__":
     df = read_data('ten_file_processed3.csv')
-    # Plot and save comparison for "objvalue"
+
     order = ['DUMMY04', 'DUMMY07', 'DUMMY', 'DUMMY2']
     solver = ["ILP_GUROBI",  "QL_DUMMY", "GREEDY"]
     labels = ["ILP-SE", "QL-SE", "Greedy-SE"]

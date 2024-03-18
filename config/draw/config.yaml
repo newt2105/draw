@@ -12,13 +12,13 @@ plot_configs:
     data: objvalue
     filename: objvalue_comparison
     ylim_top: 1.05
-    runtime : False
+    yscale: linear
   - y_name: Run time
     data: runtime
     filename: runtime_comparison
-    runtime : True
+    yscale: log
   - y_name: Used links per slices
     data: usedlinksrate
     filename: usedlinkscount_comparison
     ylim_top: 15
-    runtime : False
+    yscale: linear

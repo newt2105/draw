@@ -21,9 +21,10 @@ def plotAndSaveComparison(
         fontsize,
         alpha,
         labelsize,
+        yscale,
         ylim_bottom=None, 
         ylim_top=None, 
-        runtime = False,
+        
 
         ):
     plt.rc('text', usetex=True)
@@ -52,13 +53,14 @@ def plotAndSaveComparison(
     if ylim_top is not None:
         ax.set_ylim(ylim_bottom, top=ylim_top)  
 
-    if runtime == True:
-        ax.legend(fontsize=20, loc="upper left", fancybox=True)
-        ax.set_ylabel('Runtime (s)', fontsize=25)
-        ax.set_yscale('log')
-    else:
-        ax.set_ylabel(f'{y_name} ', fontsize=25)
-    # ax.set_ylabel(f'{y_name} ', fontsize=fontsize)  
+    # if runtime == True:
+    #     ax.legend(fontsize=20, loc="upper left", fancybox=True)
+    #     ax.set_ylabel('Runtime (s)', fontsize=25)
+    #     ax.set_yscale('log')
+    # else:
+    #     ax.set_ylabel(f'{y_name} ', fontsize=25)
+    ax.set_ylabel(f'{y_name} ', fontsize=fontsize) 
+    ax.set_yscale(yscale)
 
     ax.set_axisbelow(True)
     ax.grid(True, linestyle='--', alpha=alpha)
@@ -84,9 +86,10 @@ def Main():
             labels=config['labels'], # legend order
             replace=config['replace'], 
             filename=plot_config['filename'], # name of output file
-            fontsize = common["FONT_SIZE"],
-            alpa = common['ALPHA'],
+            fontsize = common['FONT_SIZE'],
+            alpha = common['ALPHA'],
             labelsize = common['LABELSIZE'],
+            yscale=plot_config.get('yscale'), # check if it is runtime or not
             ylim_top=plot_config.get('ylim_top'), # limit of y axis
-            runtime=plot_config.get('runtime') # check if it is runtime or not
+            
             )

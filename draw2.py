@@ -17,10 +17,14 @@ def plotAndSaveComparison(
         labels, 
         
         replace, 
-        filename, 
+        filename,
+        fontsize,
+        alpha,
+        labelsize,
         ylim_bottom=None, 
         ylim_top=None, 
-        runtime = False
+        runtime = False,
+
         ):
     plt.rc('text', usetex=True)
     plt.rc('font', family='sans-serif')
@@ -54,19 +58,20 @@ def plotAndSaveComparison(
         ax.set_yscale('log')
     else:
         ax.set_ylabel(f'{y_name} ', fontsize=25)
-        
+    # ax.set_ylabel(f'{y_name} ', fontsize=fontsize)  
 
     ax.set_axisbelow(True)
-    ax.grid(True, linestyle='--', alpha=0.7)
-    ax.set_xlabel('Number of slices', fontsize=25)
-    ax.tick_params(axis='both', which='major', labelsize=25)
+    ax.grid(True, linestyle='--', alpha=alpha)
+    ax.set_xlabel('Number of slices', fontsize=fontsize)
+    ax.tick_params(axis='both', which='major', labelsize=labelsize)
 
     savePlot(fig, f'{filename}.png')
 
 def Main():
     with open('./config/draw/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
-
+    with open('./common/common.yaml', 'r') as f:
+        common = yaml.safe_load(f)
     df = pd.read_csv(config['data_file']) # read in put file
 
     for plot_config in config['plot_configs']:
@@ -79,6 +84,9 @@ def Main():
             labels=config['labels'], # legend order
             replace=config['replace'], 
             filename=plot_config['filename'], # name of output file
+            fontsize = common["FONT_SIZE"],
+            alpa = common['ALPHA'],
+            labelsize = common['LABELSIZE'],
             ylim_top=plot_config.get('ylim_top'), # limit of y axis
             runtime=plot_config.get('runtime') # check if it is runtime or not
-        )
+            )

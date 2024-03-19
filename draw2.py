@@ -1,14 +1,20 @@
+import os
+import yaml
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-import os
-import yaml
+
 from helper.createPlot import createComparisonPlot
 from helper.save import savePlot
 from helper.filter import filterSolver
+from common.common import *
+
+
 """
     input:
-    + df:           dataframe
+    Name            Type            Mean?
+    + df:           dataframe       
     + order:        list
     + solver:       list
     + y_name:       string
@@ -25,29 +31,23 @@ from helper.filter import filterSolver
     output:          picture
 
     summary: this function is used to draw a picture from edited file
-
 """
-with open('./common/common.yaml', 'r') as f:
-    common = yaml.safe_load(f)
-df = pd.read_csv(common['EDITED_FILE']) # read in put file
 def plotAndSaveComparison(
-        df,
-        order: list, 
-        solver: list, 
-        y_name: str,  
-        data: str,    
-        labels: list, 
-        replace: dict,  
-        yscale: str, 
-        filename: str, 
-        fontsize: float = common['FONT_SIZE'],
-        alpha: float = common['ALPHA'],
-        labelsize: float = common['LABELSIZE'],
-        ylim_bottom: float = None, 
-        ylim_top: float = None,
-        
-
-        ):
+        df:             pd.DataFrame,
+        order:          list, 
+        solver:         list, 
+        y_name:         str,  
+        data:           str,    
+        labels:         list, 
+        replace:        dict,  
+        yscale:         str, 
+        filename:       str, 
+        fontsize:       float = FONT_SIZE,
+        alpha:          float = ALPHA,
+        labelsize:      float = LABELSIZE,
+        ylim_bottom:    float = None, 
+        ylim_top:       float = None,
+):
     plt.rc('text', usetex=True)
     plt.rc('font', family='sans-serif')
 
@@ -74,12 +74,6 @@ def plotAndSaveComparison(
     if ylim_top is not None:
         ax.set_ylim(ylim_bottom, top=ylim_top)  
 
-    # if runtime == True:
-    #     ax.legend(fontsize=20, loc="upper left", fancybox=True)
-    #     ax.set_ylabel('Runtime (s)', fontsize=25)
-    #     ax.set_yscale('log')
-    # else:
-    #     ax.set_ylabel(f'{y_name} ', fontsize=25)
     ax.set_ylabel(f'{y_name} ', fontsize=fontsize) 
     ax.set_yscale(yscale)
 
@@ -93,18 +87,18 @@ def plotAndSaveComparison(
 def Main():
     with open('./config/draw/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
-    # df = pd.read_csv(config['data_file']) # read in put file
+    df = pd.read_csv(config['data_file']) # read in put file
 
     for plot_config in config['plot_configs']:
         plotAndSaveComparison(
-            df,
-            config['order'], # order of set name in chart
-            config['solver'], # name of solver
-            y_name=plot_config['y_name'], 
-            data=plot_config['data'], # type of data
-            labels=config['labels'], # legend order
-            replace=config['replace'], 
-            filename=plot_config['filename'], # name of output file
-            yscale=plot_config.get('yscale'), # check if it is runtime or not
-            ylim_top=plot_config.get('ylim_top'), # limit of y axis
-            )
+            df          = df,
+            order       = config['order'], # order of set name in chart
+            solver      = config['solver'], # name of solver
+            y_name      = plot_config['y_name'], 
+            data        = plot_config['data'], # type of data
+            labels      = config['labels'], # legend order
+            replace     = config['replace'], 
+            filename    = plot_config['filename'], # name of output file
+            yscale      = plot_config.get('yscale'), # check if it is runtime or not
+            ylim_top    = plot_config.get('ylim_top'), # limit of y axis
+        )

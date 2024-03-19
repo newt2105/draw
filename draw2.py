@@ -101,15 +101,15 @@ def Main():
         plotAndSaveComparison(
             df              = df,
             columname       = config['columname'],
-            order           = config['order'], # order of set name in chart
-            solver          = config['solver'], # name of solver
+            order           = config['order'], 
+            solver          = config['solver'], 
             y_name          = plot_config['y_name'], 
-            data            = plot_config['data'], # type of data
-            labels          = config['labels'], # legend order
+            data            = plot_config['data'], 
+            labels          = config['labels'], 
             replace         = config['replace'], 
-            filename        = plot_config['filename'], # name of output file
+            filename        = plot_config['filename'], 
             fontsizelegend  = plot_config['fontsize'],
             loc             = plot_config['loc'],
-            yscale          = plot_config.get('yscale'), # check if it is runtime or not
-            ylim_top        = plot_config.get('ylim_top'), # limit of y axis
+            yscale          = plot_config.get('yscale'), 
+            ylim_top        = plot_config.get('ylim_top'), 
         )

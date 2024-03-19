@@ -14,19 +14,19 @@ from common.common import *
 """
     input:
     Name            Type            Mean?
-    + df:           dataframe       
-    + order:        list
-    + solver:       list
-    + y_name:       string
-    + data:         string
-    + label:        list
-    + replace:      dic
-    + file name:    string
-    + fontsize:     float
+    + df:           dataframe       dataframe
+    + order:        list            order of name in chart
+    + solver:       list            name of solver
+    + y_name:       string          name of y_column
+    + data:         string          name of data
+    + label:        list            name of legend
+    + replace:      dict            
+    + file name:    string          output file name
+    + fontsize:     float           
     + alpha:        float
     + labelsize:    float
-    + yscale:       string
-    + ylim_top:     float
+    + yscale:       string          type of y culumn
+    + ylim_top:     float           maximum of y column
 
     output:          picture
 
@@ -87,7 +87,8 @@ def plotAndSaveComparison(
 def Main():
     with open('./config/draw/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
-    df = pd.read_csv(config['data_file']) # read in put file
+    df = pd.read_csv(EDITED_FILE ) # read in put file
+    # print(df)
 
     for plot_config in config['plot_configs']:
         plotAndSaveComparison(

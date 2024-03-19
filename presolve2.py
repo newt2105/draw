@@ -1,27 +1,32 @@
 import pandas as pd
 import yaml
 
+from common.common import *
+
+
 """
-    input:
-        + path_raw_file:        string
-        + edited_file_path:     string
-        + average_data:         list
-        + setname:              dic
-        + order:                list
-        + convert_to_float:     list
+    input: 
+        Name                    Type            Mean
+
+        + path_raw_file:        string          path of raw file
+        + edited_file_path:     string          path of edited file
+        + average_data:         list            data needs to processed
+        + setname:              dict            set of name
+        + order:                list            order of name in chart
+        + convert_to_float:     list            data needs to converted to float
     output:
         + path_output_file:          string
     summary: this file convert raw file to new file with proccessed data
 """
-
 def process_data_by_setname(
-    raw_file: str, 
-    edited_file_path: str, 
-    average_data: list,
-    columname: str,
-    setname: list, 
-    order: list, 
-    convert_to_float: list
+
+    average_data:       list,
+    columname:          str,
+    setname:            list, 
+    order:              list, 
+    convert_to_float:   list,
+    raw_file:           str = RAW_FILE , 
+    edited_file_path:   str = OUT_PUTFILE, 
     ):
     # read from raw file .csv
     processed_data = pd.read_csv(raw_file)
@@ -50,21 +55,15 @@ def Main():
     # read config and common file
     with open('./config/presolve/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
-    with open('./common/common.yaml', 'r') as f:
-        common = yaml.safe_load(f)
 
-    file_path = common['RAW_FILE'] # original file
-    output_file_path = common['OUT_PUTFILE'] # output file
     columname = config['columname']
-    average_data = config['average_data'] # data needs to be averaged
-    setname_mapping = config['setname'] # set name
-    order = config['order'] # order of set name in chart
-    convert_to_float = config['convert_to_float'] # data needs to converted to float
+    average_data = config['average_data'] 
+    setname_mapping = config['setname'] 
+    order = config['order'] 
+    convert_to_float = config['convert_to_float'] 
     
     # main process
     process_data_by_setname(
-        file_path, 
-        output_file_path, 
         average_data, 
         columname, 
         setname_mapping, 

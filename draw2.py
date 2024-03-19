@@ -6,24 +6,45 @@ import yaml
 from helper.createPlot import createComparisonPlot
 from helper.save import savePlot
 from helper.filter import filterSolver
+"""
+    input:
+    + df:           dataframe
+    + order:        list
+    + solver:       list
+    + y_name:       string
+    + data:         string
+    + label:        list
+    + replace:      dic
+    + file name:    string
+    + fontsize:     float
+    + alpha:        float
+    + labelsize:    float
+    + yscale:       string
+    + ylim_top:     float
 
+    output:          picture
 
+    summary: this function is used to draw a picture from edited file
+
+"""
+with open('./common/common.yaml', 'r') as f:
+    common = yaml.safe_load(f)
+df = pd.read_csv(common['EDITED_FILE']) # read in put file
 def plotAndSaveComparison(
-        df, 
-        order, 
-        solver, 
-        y_name, 
-        data, 
-        labels, 
-        
-        replace, 
-        filename,
-        fontsize,
-        alpha,
-        labelsize,
-        yscale,
-        ylim_bottom=None, 
-        ylim_top=None, 
+        df,
+        order: list, 
+        solver: list, 
+        y_name: str,  
+        data: str,    
+        labels: list, 
+        replace: dict,  
+        yscale: str, 
+        filename: str, 
+        fontsize: float = common['FONT_SIZE'],
+        alpha: float = common['ALPHA'],
+        labelsize: float = common['LABELSIZE'],
+        ylim_bottom: float = None, 
+        ylim_top: float = None,
         
 
         ):
@@ -72,9 +93,7 @@ def plotAndSaveComparison(
 def Main():
     with open('./config/draw/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
-    with open('./common/common.yaml', 'r') as f:
-        common = yaml.safe_load(f)
-    df = pd.read_csv(config['data_file']) # read in put file
+    # df = pd.read_csv(config['data_file']) # read in put file
 
     for plot_config in config['plot_configs']:
         plotAndSaveComparison(
@@ -86,10 +105,6 @@ def Main():
             labels=config['labels'], # legend order
             replace=config['replace'], 
             filename=plot_config['filename'], # name of output file
-            fontsize = common['FONT_SIZE'],
-            alpha = common['ALPHA'],
-            labelsize = common['LABELSIZE'],
             yscale=plot_config.get('yscale'), # check if it is runtime or not
             ylim_top=plot_config.get('ylim_top'), # limit of y axis
-            
             )

@@ -3,14 +3,14 @@ import yaml
 
 """
     input:
-        + raw_file:             string
+        + path_raw_file:        string
         + edited_file_path:     string
         + average_data:         list
-        + setname:              dictionary
+        + setname:              dic
         + order:                list
         + convert_to_float:     list
     output:
-        + output_file:          string
+        + path_output_file:          string
     summary: this file convert raw file to new file with proccessed data
 """
 
@@ -23,28 +23,26 @@ def process_data_by_setname(
     order: list, 
     convert_to_float: list
     ):
-    # Đọc dữ liệu từ file CSV
-    df = pd.read_csv(raw_file)
+    # read from raw file .csv
+    processed_data = pd.read_csv(raw_file)
 
-    # Tạo một bản sao của DataFrame để tránh ảnh hưởng đến dữ liệu gốc
-    processed_data = df.copy()
 
-    # Chuyển đổi kiểu dữ liệu của các cột sang float
+    # convert data type to float
     processed_data[convert_to_float] = processed_data[convert_to_float].astype(float)
 
-    # Duyệt qua từng dòng và áp dụng hệ số chia tương ứng
+    # divide the corresponding coefficient
     for setname, factor in setname.items():
         mask = processed_data[columname] == setname
         processed_data.loc[mask, average_data] /= factor
 
-    # Xác định thứ tự ưu tiên của các giá trị setname
+    # determine the order of setname
     setname_order = pd.CategoricalDtype(categories=order, ordered=True)
     processed_data[columname] = processed_data[columname].astype(setname_order)
 
-    # Sắp xếp DataFrame theo thứ tự setname
+    # sort data frame by order of setname
     processed_data.sort_values(by=columname, inplace=True)
 
-    # Lưu kết quả vào file CSV mới
+    # Save result in new file
     processed_data.to_csv(edited_file_path, index=False)
     print("done")
 

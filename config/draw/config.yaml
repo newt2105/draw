@@ -7,18 +7,25 @@ replace:
 order: [DUMMY04, DUMMY07, DUMMY, DUMMY2]
 solver: [ILP_GUROBI, QL_DUMMY, GREEDY]
 labels: [ILP-SE, QL-SE, Greedy-SE]
+columname: setname
 plot_configs:
   - y_name: Acceptance rate
     data: objvalue
     filename: objvalue_comparison
     ylim_top: 1.05
     yscale: linear
+    fontsize: x-large 
+    loc: upper right
   - y_name: Run time
     data: runtime
     filename: runtime_comparison
     yscale: log
+    fontsize: x-large 
+    loc: upper left
   - y_name: Used links per slices
     data: usedlinksrate
     filename: usedlinkscount_comparison
     ylim_top: 15
     yscale: linear
+    fontsize: x-large 
+    loc: lower left

@@ -34,6 +34,7 @@ from common.common import *
 """
 def plotAndSaveComparison(
         df:             pd.DataFrame,
+        columname:      str,
         order:          list, 
         solver:         list, 
         y_name:         str,  
@@ -41,35 +42,41 @@ def plotAndSaveComparison(
         labels:         list, 
         replace:        dict,  
         yscale:         str, 
-        filename:       str, 
+        filename:       str,
+        fontsizelegend: str,
+        loc:            str,
+        fancybox:       bool = FANCYBOX,
+        colors:         list = COLORS,
+        edgecolors:     list = EDGECOLORS,
+        linestyle:      list = LINESTYLE,
         fontsize:       float = FONT_SIZE,
+        family:         str   = FAMILY,
         alpha:          float = ALPHA,
         labelsize:      float = LABELSIZE,
         ylim_bottom:    float = None, 
         ylim_top:       float = None,
 ):
     plt.rc('text', usetex=True)
-    plt.rc('font', family='sans-serif')
+    plt.rc('font', family=family)
 
-    df['setname'] = pd.Categorical(df['setname'], categories=order, ordered=True)
-    df = df.sort_values('setname')
+    df[columname] = pd.Categorical(df[columname], categories=order, ordered=True)
+    df = df.sort_values(columname)
 
     comparison_data = []
 
     for i in range(len(solver)):
         # Filter data for each solver
         solver_df = filterSolver(df, solver[i])
-        comparison_data.append(solver_df.groupby("setname")[data].mean())
+        comparison_data.append(solver_df.groupby(columname)[data].mean())
 
     # Create subplot
     fig, ax = plt.subplots(figsize=(8, 6))
         
-    # Colors for different bars
-    colors = ["w", "w", "w"]
-    edgecolors = ["black", "green", "black"]
 
     # Comparison plot
     createComparisonPlot(ax, comparison_data, labels, df, colors, edgecolors, replace)
+
+    ax.legend(fontsize=fontsizelegend, loc=loc, fancybox=fancybox)
 
     if ylim_top is not None:
         ax.set_ylim(ylim_bottom, top=ylim_top)  
@@ -78,7 +85,7 @@ def plotAndSaveComparison(
     ax.set_yscale(yscale)
 
     ax.set_axisbelow(True)
-    ax.grid(True, linestyle='--', alpha=alpha)
+    ax.grid(True, linestyle=linestyle, alpha=alpha)
     ax.set_xlabel('Number of slices', fontsize=fontsize)
     ax.tick_params(axis='both', which='major', labelsize=labelsize)
 
@@ -92,14 +99,17 @@ def Main():
 
     for plot_config in config['plot_configs']:
         plotAndSaveComparison(
-            df          = df,
-            order       = config['order'], # order of set name in chart
-            solver      = config['solver'], # name of solver
-            y_name      = plot_config['y_name'], 
-            data        = plot_config['data'], # type of data
-            labels      = config['labels'], # legend order
-            replace     = config['replace'], 
-            filename    = plot_config['filename'], # name of output file
-            yscale      = plot_config.get('yscale'), # check if it is runtime or not
-            ylim_top    = plot_config.get('ylim_top'), # limit of y axis
+            df              = df,
+            columname       = config['columname'],
+            order           = config['order'], # order of set name in chart
+            solver          = config['solver'], # name of solver
+            y_name          = plot_config['y_name'], 
+            data            = plot_config['data'], # type of data
+            labels          = config['labels'], # legend order
+            replace         = config['replace'], 
+            filename        = plot_config['filename'], # name of output file
+            fontsizelegend  = plot_config['fontsize'],
+            loc             = plot_config['loc'],
+            yscale          = plot_config.get('yscale'), # check if it is runtime or not
+            ylim_top        = plot_config.get('ylim_top'), # limit of y axis
         )

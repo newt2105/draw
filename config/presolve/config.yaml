@@ -7,4 +7,5 @@ setname:
 order: ['DUMMY04', 'DUMMY07', 'DUMMY', 'DUMMY2']
 average_data : ['objvalue']
 convert_to_float: ['objvalue', 'usedlinksrate']
-columname: setname
+column_set: setname
+column_solver: solvername

@@ -7,7 +7,6 @@ import numpy as np
 
 from helper.createPlot import createComparisonPlot
 from helper.save import savePlot
-from helper.filter import filterSolver
 from common.common import *
 
 
@@ -34,7 +33,8 @@ from common.common import *
 """
 def plotAndSaveComparison(
         df:             pd.DataFrame,
-        columname:      str,
+        column_set:     str,
+        column_solver:  str,
         order:          list, 
         solver:         list, 
         y_name:         str,  
@@ -59,22 +59,20 @@ def plotAndSaveComparison(
     plt.rc('text', usetex=True)
     plt.rc('font', family=family)
 
-    df[columname] = pd.Categorical(df[columname], categories=order, ordered=True)
-    df = df.sort_values(columname)
+    df[column_set] = pd.Categorical(df[column_set], categories=order, ordered=True)
+    df = df.sort_values(column_set)
 
     comparison_data = []
-
-    for i in range(len(solver)):
-        # Filter data for each solver
-        solver_df = filterSolver(df, solver[i])
-        comparison_data.append(solver_df.groupby(columname)[data].mean())
+    for sol in solver:
+        solver_df = df[df["solvername"] == sol]
+        comparison_data.append(solver_df.groupby(column_set)[data].mean())
 
     # Create subplot
     fig, ax = plt.subplots(figsize=(8, 6))
         
 
     # Comparison plot
-    createComparisonPlot(ax, comparison_data, labels, df, colors, edgecolors, replace)
+    createComparisonPlot(ax, comparison_data, column_set, labels, df, colors, edgecolors, replace)
 
     ax.legend(fontsize=fontsizelegend, loc=loc, fancybox=fancybox)
 
@@ -100,7 +98,8 @@ def Main():
     for plot_config in config['plot_configs']:
         plotAndSaveComparison(
             df              = df,
-            columname       = config['columname'],
+            column_set      = config['column_set'],
+            column_solver   = config['column_solver'],
             order           = config['order'], 
             solver          = config['solver'], 
             y_name          = plot_config['y_name'], 

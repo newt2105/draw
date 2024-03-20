@@ -21,7 +21,7 @@ from common.common import *
 def process_data_by_setname(
 
     average_data:       list,
-    columname:          str,
+    column_set:          str,
     setname:            list, 
     order:              list, 
     convert_to_float:   list,
@@ -37,15 +37,15 @@ def process_data_by_setname(
 
     # divide the corresponding coefficient
     for setname, factor in setname.items():
-        mask = processed_data[columname] == setname
+        mask = processed_data[column_set] == setname
         processed_data.loc[mask, average_data] /= factor
 
     # determine the order of setname
     setname_order = pd.CategoricalDtype(categories=order, ordered=True)
-    processed_data[columname] = processed_data[columname].astype(setname_order)
+    processed_data[column_set] = processed_data[column_set].astype(setname_order)
 
     # sort data frame by order of setname
-    processed_data.sort_values(by=columname, inplace=True)
+    processed_data.sort_values(by=column_set, inplace=True)
 
     # Save result in new file
     processed_data.to_csv(edited_file_path, index=False)
@@ -56,17 +56,12 @@ def Main():
     with open('./config/presolve/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
 
-    columname = config['columname']
-    average_data = config['average_data'] 
-    setname_mapping = config['setname'] 
-    order = config['order'] 
-    convert_to_float = config['convert_to_float'] 
     
     # main process
     process_data_by_setname(
-        average_data, 
-        columname, 
-        setname_mapping, 
-        order, 
-        convert_to_float
+        average_data =      config['average_data'] , 
+        column_set =        config['column_set'], 
+        setname =           config['setname'], 
+        order =             config['order'] , 
+        convert_to_float =  config['convert_to_float'] 
         )

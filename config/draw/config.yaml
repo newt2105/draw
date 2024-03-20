@@ -7,7 +7,8 @@ replace:
 order: [DUMMY04, DUMMY07, DUMMY, DUMMY2]
 solver: [ILP_GUROBI, QL_DUMMY, GREEDY]
 labels: [ILP-SE, QL-SE, Greedy-SE]
-columname: setname
+column_set: setname
+column_solver: solvername
 plot_configs:
   - y_name: Acceptance rate
     data: objvalue
